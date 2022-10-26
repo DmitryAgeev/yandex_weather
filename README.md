@@ -1,6 +1,6 @@
 # yandex_weather
-Тестовое задание для компании Мегафон.
+Test task for Megafon company.
 
-Консольное приложение с одним параметром - городом ( > py index.py Russia-Moscow )
+Console application with one parameter - city ( > py index.py Russia-Moscow )
 
-Использованна библиотека [yaweather](https://pypi.org/project/yaweather/)
+Used library [yaweather](https://pypi.org/project/yaweather/)
