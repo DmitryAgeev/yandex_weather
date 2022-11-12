@@ -9,6 +9,7 @@ from yaweather import Russia, YaWeatherAsync
 
 
 def csv_pack(name, params, mode='a+'):
+    #Функция для создания csv файла,а также записывания в него данных
     with open(name + '.csv', mode, newline='', encoding='utf-8-sig') as file:
         writer = csv.writer(file, quoting=csv.QUOTE_ALL, delimiter=',')
         for i in range(len(params)):
@@ -17,6 +18,7 @@ def csv_pack(name, params, mode='a+'):
 
 
 def save(date, pressure, temp, field, city):
+    #Функция для анализа данных за сутки и сохранения их
     if len(pressure) < 3:
         return
 
@@ -52,6 +54,7 @@ def save(date, pressure, temp, field, city):
 
 
 async def main(city_param, city):
+    # Получаем доступ к БД
     base_dir = os.path.dirname(os.path.abspath(__file__))
     db_path = os.path.join(base_dir, "weather_db.db")
 
@@ -84,8 +87,10 @@ async def main(city_param, city):
                     temp.append(weather.temp_avg)
 
                     print(i == len(result.forecasts) - 1)
+                    # Если ночь, или это последний элемент и вечер,то сохраняем результаты
                     if when == 'night' or (i == len(result.forecasts) - 1 and when == 'evening'):
                         save(date, pressure, temp, field, city)
+                        # Поскольку ночь считается следующим днём сохраняем данные для следующего перебора
                         date = forecast.date
                         pressure = []
                         temp = []
@@ -103,6 +108,7 @@ async def main(city_param, city):
 
 
 if __name__ == '__main__':
+    # Получаем на вход агрумент и преобразовываем его в нужный город
     param = sys.argv[1]
     param = param.split('-')
     exec("%s = %s.%s" % ('city_param', param[0], param[1]))
